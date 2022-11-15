@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
-import { View, Text, TouchableOpacity } from 'react-native';
+import { View, Text, TouchableOpacity, Dimensions } from 'react-native';
 import PropTypes from 'prop-types';
+
+const width = Dimensions.get("window").width;
 
 class StepIcon extends Component {
   render() {
@@ -9,13 +11,12 @@ class StepIcon extends Component {
     if (this.props.isActiveStep) {
       styles = {
         circleStyle: {
-          width: 40,
-          height: 40,
-          borderRadius: 20,
-          backgroundColor: this.props.activeStepIconColor,
+          width: width/this.props.stepCount - 10,
+          height: 5,
+          borderRadius: 5,
+          backgroundColor: this.props.activeStepIconBorderColor,
           borderColor: this.props.activeStepIconBorderColor,
-          borderWidth: 5,
-          bottom: 2,
+          borderWidth: 1,
         },
         circleText: {
           alignSelf: 'center',
@@ -57,9 +58,9 @@ class StepIcon extends Component {
     } else if (this.props.isCompletedStep) {
       styles = {
         circleStyle: {
-          width: 36,
-          height: 36,
-          borderRadius: 18,
+          width: width/this.props.stepCount - 10,
+          height: 5,
+          borderRadius: 5,
           backgroundColor: this.props.completedStepIconColor,
         },
         circleText: {
@@ -103,9 +104,9 @@ class StepIcon extends Component {
     } else {
       styles = {
         circleStyle: {
-          width: 36,
-          height: 36,
-          borderRadius: 18,
+          width: width/this.props.stepCount - 10,
+          height: 5,
+          borderRadius: 5,
           backgroundColor: this.props.disabledStepIconColor,
         },
         circleText: {
@@ -149,19 +150,19 @@ class StepIcon extends Component {
     }
 
     return (
-      <View style={{ flexDirection: 'column', alignItems: 'center' }}>
+      <View style={{ marginHorizontal: 5 }}>
         <View style={styles.circleStyle}>
-          <Text style={styles.circleText}>
+          {/* <Text style={styles.circleText}>
             {this.props.isCompletedStep ? (
               <Text style={{ color: this.props.completedCheckColor }}>&#10003;</Text>
             ) : (
               <Text style={styles.stepNum}>{this.props.stepNum}</Text>
             )}
-          </Text>
+          </Text> */}
         </View>
-        <Text style={styles.labelText}>{this.props.label}</Text>
-        {!this.props.isFirstStep && <View style={styles.leftBar} />}
-        {!this.props.isLastStep && <View style={styles.rightBar} />}
+        {/* <Text style={styles.labelText}>{this.props.label}</Text> */}
+        {/* {!this.props.isFirstStep && <View style={styles.leftBar} />}
+        {!this.props.isLastStep && <View style={styles.rightBar} />} */}
       </View>
     );
   }

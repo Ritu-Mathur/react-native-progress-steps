@@ -37,6 +37,7 @@ class ProgressSteps extends Component {
           <View>
             <StepIcon
               {...this.getChildProps()}
+              stepCount={this.state.stepCount}
               stepNum={i + 1}
               label={this.props.children[i].props.label}
               isFirstStep={i === 0}
