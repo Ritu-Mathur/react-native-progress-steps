@@ -3,6 +3,7 @@ import { View, ScrollView, TouchableOpacity, Text } from 'react-native';
 import PropTypes from 'prop-types';
 
 import ProgressButtons from './ProgressButtons';
+import ProgressContext from './ProgressContext';
 
 class ProgressStep extends Component {
   onNextStep = async () => {
@@ -13,13 +14,13 @@ class ProgressStep extends Component {
       return;
     }
 
-    this.props.setActiveStep(this.props.activeStep + 1);
+    this.context.setActiveStep(this.context.activeStep + 1);
   };
 
   onPreviousStep = () => {
     // Changes active index and calls previous function passed by parent
     this.props.onPrevious && this.props.onPrevious();
-    this.props.setActiveStep(this.props.activeStep - 1);
+    this.context.setActiveStep(this.context.activeStep - 1);
   };
 
   onSubmit = () => {
@@ -49,11 +50,11 @@ class ProgressStep extends Component {
     return (
       <TouchableOpacity
         style={btnStyle}
-        onPress={this.props.activeStep === this.props.stepCount - 1 ? this.onSubmit : this.onNextStep}
+        onPress={this.context.activeStep === this.context.stepCount - 1 ? this.onSubmit : this.onNextStep}
         disabled={this.props.nextBtnDisabled}
       >
         <Text style={textStyle}>
-          {this.props.activeStep === this.props.stepCount - 1 ? this.props.finishBtnText : this.props.nextBtnText}
+          {this.context.activeStep === this.context.stepCount - 1 ? this.props.finishBtnText : this.props.nextBtnText}
         </Text>
       </TouchableOpacity>
     );
@@ -81,7 +82,7 @@ class ProgressStep extends Component {
 
     return (
       <TouchableOpacity style={btnStyle} onPress={this.onPreviousStep} disabled={this.props.previousBtnDisabled}>
-        <Text style={textStyle}>{this.props.activeStep === 0 ? '' : this.props.previousBtnText}</Text>
+        <Text style={textStyle}>{this.context.activeStep === 0 ? '' : this.props.previousBtnText}</Text>
       </TouchableOpacity>
     );
   };
@@ -114,11 +115,11 @@ ProgressStep.propTypes = {
   onNext: PropTypes.func,
   onPrevious: PropTypes.func,
   onSubmit: PropTypes.func,
-  setActiveStep: PropTypes.func,
+  // setActiveStep: PropTypes.func,
   nextBtnText: PropTypes.string,
   previousBtnText: PropTypes.string,
   finishBtnText: PropTypes.string,
-  stepCount: PropTypes.number,
+  // stepCount: PropTypes.number,
   nextBtnStyle: PropTypes.object,
   nextBtnTextStyle: PropTypes.object,
   nextBtnDisabled: PropTypes.bool,
@@ -142,5 +143,7 @@ ProgressStep.defaultProps = {
   removeBtnRow: false,
   scrollable: true
 };
+
+ProgressStep.contextType = ProgressContext;
 
 export default ProgressStep;

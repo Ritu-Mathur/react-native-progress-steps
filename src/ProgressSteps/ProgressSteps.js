@@ -3,6 +3,7 @@ import { View } from 'react-native';
 import { times } from 'lodash';
 import PropTypes from 'prop-types';
 import StepIcon from './StepIcon';
+import ProgressContext from "./ProgressContext";
 
 class ProgressSteps extends Component {
   state = {
@@ -77,17 +78,29 @@ class ProgressSteps extends Component {
       },
     };
 
+    const progressValue = {
+      setActiveStep: this.setActiveStep,
+      activeStep: this.state.activeStep,
+      stepCount: this.state.stepCount,
+    }
+
     return (
-      <View style={{ flex: 1 }}>
-        <View style={styles.stepIcons}>{this.renderStepIcons()}</View>
+      // <View style={{ flex: 1 }}>
+      // <View style={styles.stepIcons}>{this.renderStepIcons()}</View>
+      <ProgressContext.Provider value={progressValue}>
         <View style={{ flex: 1 }}>
-          {React.cloneElement(this.props.children[this.state.activeStep], {
+          {/* {React.cloneElement(this.props.children[this.state.activeStep], {
             setActiveStep: this.setActiveStep,
             activeStep: this.state.activeStep,
             stepCount: this.state.stepCount,
-          })}
+          })} */}
+          <View style={styles.stepIcons}>{this.renderStepIcons()}</View>
+          <View style={{ flex: 1 }}>
+            {React.cloneElement(this.props.children[this.state.activeStep])}
+          </View>
         </View>
-      </View>
+      </ProgressContext.Provider>
+      // </View>
     );
   }
 }
@@ -105,5 +118,7 @@ ProgressSteps.defaultProps = {
   topOffset: 30,
   marginBottom: 50,
 };
+
+ProgressSteps.contextType = ProgressContext;
 
 export default ProgressSteps;
